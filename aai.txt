@@ -1,0 +1,321 @@
+Aim:- Implement Bayes Theorem using Python
+# calculate P(A|B) given P(A), P(B|A), P(B|not A)
+def bayes_theorem(p_a, p_b_given_a, p_b_given_not_a): # calculate P(not A)
+  not_a = 1 - p_a # calculate P(B)
+  p_b = p_b_given_a * p_a + p_b_given_not_a * not_a # calculate P(A|B)
+  p_a_given_b = (p_b_given_a * p_a) / p_b 
+  return p_a_given_b
+# P(A)
+p_a = 0.0002 # P(B|A)
+p_b_given_a = 0.85 # P(B|not A)
+p_b_given_not_a = 0.05 # calculate P(A|B)
+result = bayes_theorem(p_a, p_b_given_a, p_b_given_not_a) # summarize
+print('P(A|B) = %.3f%%' % (result * 100)) 
+
+Conditional Probability
+import pandas as pd
+df = pd.read_csv('/content/sample_data/student-mat.csv')
+df.head(3)
+len(df)
+import numpy as np
+df['grade_A'] = np.where(df['G3']*5 >= 80, 1, 0)
+
+df['high_absenses'] = np.where(df['absences'] >= 10, 1, 0)
+df['count'] = 1
+
+df = df[['grade_A','high_absenses','count']] 
+df.head()
+pd.pivot_table(
+df, values='count',
+index=['grade_A'], columns=['high_absenses'], aggfunc=np.size, fill_value=0
+)
+P_A = (35 + 5) / (35 + 5 + 277 + 78)
+print(P_A)
+P_B = (78 + 5) / (35 + 5 + 277 + 78)
+print(P_B) 
+print()
+P_A_U_B = 5 / (35 + 5 + 277 + 78)
+print(P_A_U_B)
+P_A_B = 0.012658227848101266/ 0.21012658227848102
+print(P_A_B)
+
+
+Joint Probability
+cardnumber=input("Enter number of Card ") 
+cardcolor=input("Enter color of Card ")
+
+
+pofA=4/52 
+pofB=26/52
+
+print("p(A)=>Probablility of drawing card with number ",cardnumber," =",round(pofA,2)) 
+print("p(B)=>Probablility of drawing card with color ",cardcolor," =",round(pofB,2))
+print("Joint Probablity of A and B = P(A) * P(B)") 
+pAandB=round(pofA * pofB,2)
+print("P(A and B)=",pAandB)
+print("There are ",pAandB *100," % chances that of getting ",cardcolor, " card with number "
+,cardnumber)
+
+Aim:- Write a program for to implement Rule based system.
+import spacy
+
+# import the matcher
+from spacy.matcher import Matcher
+
+# load a model and create the nlp object
+nlp = spacy.load('en_core_web_sm')
+
+# Initialize the matcher with the shared vocab
+matcher = Matcher(nlp.vocab)
+
+# add the pattern to the matcher
+pattern = [{'ORTH': 'iPhone'}, {'ORTH': 'X'}]
+matcher.add('IPHONE_PATTERN', [pattern])
+
+# process some text
+doc = nlp("New iPhone X release date leaked")
+
+# call the matcher on the doc matches = matcher(doc)
+# iterate over the matches
+for match_id, start, end in matcher(doc):
+    # get the matched span
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
+# complex pattern Matching the lexical Attributes
+pattern = [
+    {'IS_DIGIT': True},
+    {'LOWER': 'fifa'},
+    {'LOWER': 'world'},
+    {'LOWER': 'cup'},
+    {'IS_PUNCT': True}
+]
+matcher.add('FIFA_WORLD_CUP', [pattern])
+doc = nlp("2018 FIFA World Cup: France won!!!! ")
+matches = matcher(doc)
+# iterate over the matches
+for match_id, start, end in matches:
+    # get the matched span
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
+# Matching other token attributes
+pattern = [
+    {'LEMMA': 'love', 'POS': 'VERB'},
+    {'POS': 'NOUN'}
+]
+matcher.add('LEMA_NOUN', [pattern])
+doc = nlp("I loved dogs but now I love cats more.")
+matches = matcher(doc)
+
+# iterate over the matches
+for match_id, start, end in matches:
+    # get the matched span
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
+# Using operators and quantifiers
+pattern = [
+    {'LEMMA': 'buy'},
+    {'POS': 'DET', 'OP': '?'},  # optional: match 0 or 1 times
+    {'POS': 'NOUN'}
+]
+matcher.add('OPERATOR_QUANTIFIER', [pattern])
+doc = nlp("I bought a smartphone. Now I'm buying apps.")
+matches = matcher(doc)
+# iterate over the matches
+for match_id, start, end in matches:
+    # get the matched span
+    matched_span = doc[start:end]
+    print(matched_span.text)
+
+
+Supervised Learning –
+import random
+from sklearn.linear_model import LinearRegression
+
+# Create an empty list for the feature data set 'X' and the target data set 'y'
+feature_set = []
+target_set = []
+
+# get the number of rows wanted for the data set
+number_of_rows = 200
+
+# limit the possible values in the data set
+random_number_limit = 2000
+
+# Create the training data set
+# Create and append a randomly generated data set to the input and output
+for i in range(0, number_of_rows):
+    x = random.randint(0, random_number_limit)
+    y = random.randint(0, random_number_limit)
+    z = random.randint(0, random_number_limit)
+    print("x=", x, "\ty=", y, "\tz=", z)
+    function = (10 * x) + (2 * y) + (3 * z)
+    feature_set.append([x, y, z])
+    target_set.append(function)
+
+model = LinearRegression()
+
+# Create a linear regression object/model
+model.fit(feature_set, target_set)
+
+test_set = [[193, 1651, 983]]
+prediction = model.predict(test_set)
+
+print('Prediction:', prediction, '\tCoefficient:', model.coef_)
+
+Un – supervised Learning -
+# Importing Modules
+from sklearn import datasets
+import matplotlib.pyplot as plt
+
+# Loading dataset
+iris_df = datasets.load_iris()
+
+# Available methods on dataset
+print(dir(iris_df))
+
+# Features
+print(iris_df.feature_names)
+
+# Targets
+print(iris_df.target)
+
+# Target Names
+print(iris_df.target_names)
+
+label = {0: 'red', 1: 'blue', 2: 'green'}
+
+# Dataset Slicing
+x_axis = iris_df.data[:, 0]  # Sepal Length
+y_axis = iris_df.data[:, 2]  # Sepal Width
+
+# Plotting
+plt.scatter(x_axis, y_axis, c=iris_df.target)
+plt.show()
+
+
+Implement K-means algorithm using Python
+
+import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+# Load the train and test datasets to create two DataFrames
+train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
+train = pd.read_csv(train_url)
+
+test_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
+test = pd.read_csv(test_url)
+
+print("Train dataset:")
+print(train.head())
+
+print("\nTest dataset:")
+print(test.head())
+
+print("***** Train_Set *****")
+print(train.describe())
+print("\n")
+print("***** Test_Set *****")
+print(test.describe())
+
+print(train.columns.values)
+
+# For the train set
+print("*****In the train set*****")
+print(train.isna().sum())
+print("\n")
+print("*****In the test set*****")
+print(test.isna().sum())
+
+# Fill missing values with mean column values in the train set
+train.fillna(train.mean(), inplace=True)
+
+# Fill missing values with mean column values in the test set
+test.fillna(test.mean(), inplace=True)
+
+print(train.isna().sum())
+print(test.isna().sum())
+
+train['Ticket'].head()
+
+train['Cabin'].head()
+
+train[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+train[["Sex", "Survived"]].groupby(['Sex'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+train[["SibSp", "Survived"]].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+g = sns.FacetGrid(train, col='Survived')
+g.map(plt.hist, 'Age', bins=20)
+
+grid = sns.FacetGrid(train, col='Survived', row='Pclass', height=2.2, aspect=1.6)
+grid.map(plt.hist, 'Age', alpha=.5, bins=20)
+grid.add_legend();
+
+train.info()
+
+train = train.drop(['Name','Ticket', 'Cabin','Embarked'], axis=1)
+test = test.drop(['Name','Ticket', 'Cabin','Embarked'], axis=1)
+
+labelEncoder = LabelEncoder()
+labelEncoder.fit(train['Sex'])
+labelEncoder.fit(test['Sex'])
+train['Sex'] = labelEncoder.transform(train['Sex'])
+test['Sex'] = labelEncoder.transform(test['Sex'])
+
+train.info()
+test.info()
+
+X = np.array(train.drop(['Survived'], 1).astype(float))
+y = np.array(train['Survived'])
+
+# You want cluster the passenger records into 2: Survived or Not survived
+kmeans = KMeans(n_clusters=2)
+kmeans.fit(X)
+
+correct = 0
+for i in range(len(X)):
+    predict_me = np.array(X[i].astype(float))
+    predict_me = predict_me.reshape(-1, len(predict_me))
+    prediction = kmeans.predict(predict_me)
+    if prediction[0] == y[i]: 
+        correct += 1
+
+print(correct/len(X))
+
+kmeans = KMeans(n_clusters=2, max_iter=600, algorithm='auto')
+kmeans.fit(X)
+
+correct = 0
+for i in range(len(X)):
+    predict_me = np.array(X[i].astype(float))
+    predict_me = predict_me.reshape(-1, len(predict_me))
+    prediction = kmeans.predict(predict_me)
+    if prediction[0] == y[i]: 
+        correct += 1
+
+print(correct/len(X))
+
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+kmeans.fit(X_scaled)
+
+correct = 0
+for i in range(len(X)):
+    predict_me = np.array(X[i].astype(float))
+    predict_me = predict_me.reshape(-1, len(predict_me))
+    prediction = kmeans.predict(predict_me)
+    if prediction[0] == y[i]: 
+        correct += 1
+
+print(correct/len(X))
