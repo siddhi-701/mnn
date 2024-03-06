@@ -1,3 +1,128 @@
+PRACTICAL NO. 01
+
+Aim:- Design an Expert system using AIML
+
+Code: -
+1.	“std-startup.xml” File
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- std-startup.xml -->
+<!-- Category is an atomic AIML unit -->
+<category>
+<!-- Pattern to match in user input -->
+<!-- If user enters "LOAD AIML B" -->
+<pattern>LOAD AIML B</pattern>
+<!-- Template is the response to the pattern -->
+<!-- This learn an aiml file -->
+<template>
+<learn>basic_chat.aiml</learn>
+<!-- You can add more aiml files here -->
+<!--<learn>more_aiml.aiml</learn>-->
+</template>
+</category>
+</aiml>
+
+2.	“basic_chat.aiml” File
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- basic_chat.aiml -->
+<category>
+<pattern>HELLO *</pattern>
+<template> Well, hello Brij!
+</template>
+</category>
+<category>
+<pattern>what are you doing</pattern>
+<template>
+Well, Brij I'm Chatting with you!
+</template>
+</category>
+<category>
+<pattern>whats my full name</pattern>
+<template>
+Well, hello Brijnandan Gupta!
+</template>
+</category>
+<category>
+<pattern>Whats my nickname</pattern>
+<template>
+I think its Brij!
+</template> 
+</category>
+<category>
+<pattern>WHAT ARE YOU</pattern>
+<template>
+I'm a bot, and I'm silly!
+</template>
+</category>
+<category>
+<pattern>WHAT DO YOU DO</pattern>
+<template>
+I'm here to annoy you!
+</template>
+</category>
+<category>
+<pattern>Who am i</pattern>
+<template>
+You are Brijnandan you are Fatty.
+</template>
+</category>
+</aiml>
+
+3.	“simply.py” File
+import aiml
+kernel = aiml.Kernel()
+kernel.learn('C:/Users/Brijnandan/Desktop/Msc/AAI Practical/SimpleAIMLBot/std-startup.xml') kernel.respond('LOAD AIML B')
+while True:
+input_text = input(">Human: ") response = kernel.respond(input_text)
+print(">Bot: "+response)
+
+
+Output :–
+
+
+ 
+PRACTICAL NO. 02
+
+Aim:- Design a bot using AIML
+
+Code: - We need to create following three files.
+
+1)	std-startup.xml
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- std-startup.xml -->
+<category>
+<pattern>LOAD</pattern>
+<template>
+<learn>basic_chat.aiml</learn>
+</template>
+</category>
+</aiml>
+
+2)	basic_chat.aiml
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- basic_chat.aiml -->
+<category>
+<pattern>HELLO I AM *</pattern>
+<template> HELLO <set name="username"> <star/> </set> </template>
+</category>
+<category>
+<pattern>I LIKE * COLOR</pattern>
+<template><star index="1"/> is a nice color.</template>
+</category>
+<category>
+<pattern>BYE</pattern>
+<template> BYE <get name="username"/> THANKS FOR THE CONVERSATION.
+</template>
+</category>
+</aiml>
+
+3)	testbot.py
+import aiml
+kernel = aiml.Kernel()
+kernel.learn("E:\\ai pracs\\std-startup.xml") 
+kernel.respond("LOAD")
+# Press CTRL-C to break this loop while True:
+print( kernel.respond(input("Enter your message >> ")))
+ 
 Aim:- Implement Bayes Theorem using Python
 # calculate P(A|B) given P(A), P(B|A), P(B|not A)
 def bayes_theorem(p_a, p_b_given_a, p_b_given_not_a): # calculate P(not A)
@@ -236,10 +361,8 @@ print("\n")
 print("*****In the test set*****")
 print(test.isna().sum())
 
-# Fill missing values with mean column values in the train set
 train.fillna(train.mean(), inplace=True)
 
-# Fill missing values with mean column values in the test set
 test.fillna(test.mean(), inplace=True)
 
 print(train.isna().sum())
@@ -279,7 +402,6 @@ test.info()
 X = np.array(train.drop(['Survived'], 1).astype(float))
 y = np.array(train['Survived'])
 
-# You want cluster the passenger records into 2: Survived or Not survived
 kmeans = KMeans(n_clusters=2)
 kmeans.fit(X)
 
@@ -319,3 +441,78 @@ for i in range(len(X)):
         correct += 1
 
 print(correct/len(X))
+
+
+PRACTICAL NO. 06
+
+Aim: - Perform different operations on fuzzy set
+
+1.	 Union: -
+
+degree_of_membership(Y)= max(degree_of_membership(A), degree_of_membership(B))
+Code: -
+
+# Example to Demonstrate the Union of Two Fuzzy Sets
+A = dict()
+B = dict() Y = dict()
+A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
+B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
+
+print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
+
+for A_key, B_key in zip(A, B): A_value = A[A_key] B_value = B[B_key]
+if A_value > B_value: Y[A_key] = A_value else:
+Y[B_key] = B_value
+print('Fuzzy Set Union is :', Y) Output :-
+
+ 
+2.	 Intersection: -
+degree_of_membership(Y)= min(degree_of_membership(A), degree_of_membership(B))
+
+Code: -
+
+# Example to Demonstrate Intersection of Two Fuzzy Sets
+A = dict()
+B = dict() Y = dict()
+A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
+B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
+
+print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
+
+for A_key, B_key in zip(A, B):
+A_value = A[A_key] B_value = B[B_key]
+if A_value < B_value:
+Y[A_key] = A_value else:
+Y[B_key] = B_value print('Fuzzy Set Intersection is :', Y)
+Output: -
+
+
+3.	Complement : -
+degree_of_membership(Y)= 1 - degree_of_membership(A)
+Code: -
+
+Y = dict()
+ 
+A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
+print('The Fuzzy Set is :', A)
+
+for A_key in A:
+Y[A_key]= 1-A[A_key] print('Fuzzy Set Complement is :', Y) Output: -
+
+
+4.	Difference: -
+degree_of_membership(Y)= min(degree_of_membership(A), 1- degree_of_membership(B))
+
+Code: -
+A = dict()
+B = dict() Y = dict()
+A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
+B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
+
+print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
+
+for A_key, B_key in zip(A, B): A_value = A[A_key] B_value = B[B_key]
+B_value = 1 - B_value
+
+if A_value < B_value: Y[A_key] = A_value else:
+Y[B_key] = B_value print('Fuzzy Set Difference is :', Y) 
