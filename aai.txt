@@ -520,4 +520,105 @@ kernel.learn("E:\\ai pracs\\std-startup.xml")
 kernel.respond("LOAD")
 # Press CTRL-C to break this loop while True:
 print( kernel.respond(input("Enter your message >> ")))
- 
+
+
+
+Practical 5
+import spacy
+from spacy.matcher import Matcher
+
+# Load English language model
+nlp = spacy.load('en_core_web_sm')
+
+# Initialize Matcher
+matcher = Matcher(nlp.vocab)
+
+# Define patterns
+patterns = [
+    {'label': 'IPHONE_X', 'pattern': [{'ORTH': 'iPhone'}, {'ORTH': 'X'}]},
+    {'label': 'FIFA_WORLD_CUP', 'pattern': [{'IS_DIGIT': True}, {'LOWER': 'fifa'}, {'LOWER': 'world'}, {'LOWER': 'cup'}, {'IS_PUNCT': True}]},
+    {'label': 'LOVE_NOUN', 'pattern': [{'LEMMA': 'love', 'POS': 'VERB'}, {'POS': 'NOUN'}]},
+    {'label': 'BUY_SENTENCE', 'pattern': [{'LEMMA': 'buy'}, {'POS': 'DET', 'OP': '?'}, {'POS': 'NOUN'}]}
+]
+
+# Add patterns to the matcher
+for pattern in patterns:
+    matcher.add(pattern['label'], [pattern['pattern']], on_match=None)
+
+# Sample text
+texts = [
+    "New iPhone X release date leaked",
+    "2018 FIFA World Cup: France won!!!!",
+    "I loved dogs but now I love cats more.",
+    "I bought a smartphone. Now I'm buying apps."
+]
+
+# Process and match each text
+for text in texts:
+    doc = nlp(text)
+    matches = matcher(doc)
+    for match_id, start, end in matches:
+        matched_span = doc[start:end]
+        print(matched_span.text)
+
+Practical 8 kmeans clustering
+
+import pandas as pd 
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import LabelEncoder 
+from sklearn.preprocessing import MinMaxScaler 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load data
+train = pd.read_csv("C:/Users/Aditi/Downloads/train.csv")
+test = pd.read_csv("C:/Users/Aditi/Downloads/test.csv")
+
+# Display data summaries
+print("Train Data:")
+print(train.head())
+print(train.describe())
+print("Test Data:")
+print(test.head())
+print(test.describe())
+
+# Check for missing values
+print("Missing values in train set:")
+print(train.isna().sum())
+print("\nMissing values in test set:")
+print(test.isna().sum())
+
+# Fill missing values with mean column values
+train.fillna(train.mean(), inplace=True)
+test.fillna(test.mean(), inplace=True) 
+
+# Visualize data relationships
+sns.pairplot(train)
+plt.show()
+
+# Encoding categorical variables
+label_encoder = LabelEncoder()
+train['Sex'] = label_encoder.fit_transform(train['Sex'])
+test['Sex'] = label_encoder.transform(test['Sex'])
+
+# Drop non-numeric columns and missing values
+train.drop(['Sex', 'Embarked', 'Cabin', 'Ticket', 'Name'], axis=1, inplace=True)
+test.drop(['Sex', 'Embarked', 'Cabin', 'Ticket', 'Name'], axis=1, inplace=True)
+
+# Fill missing values with mean column values
+train.fillna(train.mean(), inplace=True)
+test.fillna(test.mean(), inplace=True) 
+
+# Cluster data using KMeans
+X_train = train.drop(['Survived'], axis=1)
+y_train = train['Survived']
+
+# Check if there are any remaining non-numeric columns
+non_numeric_columns = X_train.select_dtypes(exclude=['number']).columns
+print("Non-numeric columns:", non_numeric_columns)
+
+# Perform KMeans clustering
+kmeans = KMeans(n_clusters=2, max_iter=600, algorithm='auto') 
+kmeans.fit(X_train)
+
