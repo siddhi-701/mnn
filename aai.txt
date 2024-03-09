@@ -1,624 +1,556 @@
-
-Aim:- Implement Bayes Theorem using Python
-# calculate P(A|B) given P(A), P(B|A), P(B|not A)
-def bayes_theorem(p_a, p_b_given_a, p_b_given_not_a): # calculate P(not A)
-  not_a = 1 - p_a # calculate P(B)
-  p_b = p_b_given_a * p_a + p_b_given_not_a * not_a # calculate P(A|B)
-  p_a_given_b = (p_b_given_a * p_a) / p_b 
-  return p_a_given_b
-# P(A)
-p_a = 0.0002 # P(B|A)
-p_b_given_a = 0.85 # P(B|not A)
-p_b_given_not_a = 0.05 # calculate P(A|B)
-result = bayes_theorem(p_a, p_b_given_a, p_b_given_not_a) # summarize
-print('P(A|B) = %.3f%%' % (result * 100)) 
-
-Conditional Probability
-import pandas as pd
-df = pd.read_csv('/content/sample_data/student-mat.csv')
-df.head(3)
-len(df)
+1A Simple ml program
 import numpy as np
-df['grade_A'] = np.where(df['G3']*5 >= 80, 1, 0)
-
-df['high_absenses'] = np.where(df['absences'] >= 10, 1, 0)
-df['count'] = 1
-
-df = df[['grade_A','high_absenses','count']] 
-df.head()
-pd.pivot_table(
-df, values='count',
-index=['grade_A'], columns=['high_absenses'], aggfunc=np.size, fill_value=0
-)
-P_A = (35 + 5) / (35 + 5 + 277 + 78)
-print(P_A)
-P_B = (78 + 5) / (35 + 5 + 277 + 78)
-print(P_B) 
-print()
-P_A_U_B = 5 / (35 + 5 + 277 + 78)
-print(P_A_U_B)
-P_A_B = 0.012658227848101266/ 0.21012658227848102
-print(P_A_B)
-
-
-Joint Probability
-cardnumber=input("Enter number of Card ") 
-cardcolor=input("Enter color of Card ")
-
-
-pofA=4/52 
-pofB=26/52
-
-print("p(A)=>Probablility of drawing card with number ",cardnumber," =",round(pofA,2)) 
-print("p(B)=>Probablility of drawing card with color ",cardcolor," =",round(pofB,2))
-print("Joint Probablity of A and B = P(A) * P(B)") 
-pAandB=round(pofA * pofB,2)
-print("P(A and B)=",pAandB)
-print("There are ",pAandB *100," % chances that of getting ",cardcolor, " card with number "
-,cardnumber)
-
-Aim:- Write a program for to implement Rule based system.
-import spacy
-
-# import the matcher
-from spacy.matcher import Matcher
-
-# load a model and create the nlp object
-nlp = spacy.load('en_core_web_sm')
-
-# Initialize the matcher with the shared vocab
-matcher = Matcher(nlp.vocab)
-
-# add the pattern to the matcher
-pattern = [{'ORTH': 'iPhone'}, {'ORTH': 'X'}]
-matcher.add('IPHONE_PATTERN', [pattern])
-
-# process some text
-doc = nlp("New iPhone X release date leaked")
-
-# call the matcher on the doc matches = matcher(doc)
-# iterate over the matches
-for match_id, start, end in matcher(doc):
-    # get the matched span
-    matched_span = doc[start:end]
-    print(matched_span.text)
-
-# complex pattern Matching the lexical Attributes
-pattern = [
-    {'IS_DIGIT': True},
-    {'LOWER': 'fifa'},
-    {'LOWER': 'world'},
-    {'LOWER': 'cup'},
-    {'IS_PUNCT': True}
-]
-matcher.add('FIFA_WORLD_CUP', [pattern])
-doc = nlp("2018 FIFA World Cup: France won!!!! ")
-matches = matcher(doc)
-# iterate over the matches
-for match_id, start, end in matches:
-    # get the matched span
-    matched_span = doc[start:end]
-    print(matched_span.text)
-
-# Matching other token attributes
-pattern = [
-    {'LEMMA': 'love', 'POS': 'VERB'},
-    {'POS': 'NOUN'}
-]
-matcher.add('LEMA_NOUN', [pattern])
-doc = nlp("I loved dogs but now I love cats more.")
-matches = matcher(doc)
-
-# iterate over the matches
-for match_id, start, end in matches:
-    # get the matched span
-    matched_span = doc[start:end]
-    print(matched_span.text)
-
-# Using operators and quantifiers
-pattern = [
-    {'LEMMA': 'buy'},
-    {'POS': 'DET', 'OP': '?'},  # optional: match 0 or 1 times
-    {'POS': 'NOUN'}
-]
-matcher.add('OPERATOR_QUANTIFIER', [pattern])
-doc = nlp("I bought a smartphone. Now I'm buying apps.")
-matches = matcher(doc)
-# iterate over the matches
-for match_id, start, end in matches:
-    # get the matched span
-    matched_span = doc[start:end]
-    print(matched_span.text)
-
-
-Supervised Learning –
-import random
-from sklearn.linear_model import LinearRegression
-
-# Create an empty list for the feature data set 'X' and the target data set 'y'
-feature_set = []
-target_set = []
-
-# get the number of rows wanted for the data set
-number_of_rows = 200
-
-# limit the possible values in the data set
-random_number_limit = 2000
-
-# Create the training data set
-# Create and append a randomly generated data set to the input and output
-for i in range(0, number_of_rows):
-    x = random.randint(0, random_number_limit)
-    y = random.randint(0, random_number_limit)
-    z = random.randint(0, random_number_limit)
-    print("x=", x, "\ty=", y, "\tz=", z)
-    function = (10 * x) + (2 * y) + (3 * z)
-    feature_set.append([x, y, z])
-    target_set.append(function)
-
-model = LinearRegression()
-
-# Create a linear regression object/model
-model.fit(feature_set, target_set)
-
-test_set = [[193, 1651, 983]]
-prediction = model.predict(test_set)
-
-print('Prediction:', prediction, '\tCoefficient:', model.coef_)
-
-Un – supervised Learning -
-# Importing Modules
-from sklearn import datasets
+from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
+class SimpleSVM:
+    def __init__(self, learning_rate=0.001, lambda_param=0.01, n_iters=1000):
+        self.lr = learning_rate
+        self.lambda_param = lambda_param
+        self.n_iters = n_iters
+        self.w = None
+        self.b = None
 
-# Loading dataset
-iris_df = datasets.load_iris()
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        y_ = np.where(y <= 0, -1, 1)
 
-# Available methods on dataset
-print(dir(iris_df))
+        self.w = np.zeros(n_features)
+        self.b = 0
 
-# Features
-print(iris_df.feature_names)
+        for _ in range(self.n_iters):
+            for idx, x_i, in enumerate(X):
+                condition = y_[idx] * (np.dot(x_i, self.w) - self.b) >= 1
+                if not condition:
+                    self.w -= self.lr * (2 * self.lambda_param * self.w - np.dot(x_i, y_[idx]))
+                    self.b -= self.lr * y_[idx]
 
-# Targets
-print(iris_df.target)
+    def predict(self, X):
+        approx = np.dot(X, self.w) - self.b
+        return np.sign(approx)
+X, y = make_blobs(n_samples=50, n_features=2, centers=2, cluster_std=1.05, random_state=40)
+y = np.where(y == 0, -1, 1)
+clf = SimpleSVM()
+clf.fit(X, y)
 
-# Target Names
-print(iris_df.target_names)
+def visualize_svm():
+    plt.scatter(X[:, 0], X[:, 1], marker="o", c=y)
 
-label = {0: 'red', 1: 'blue', 2: 'green'}
+    x0_1 = np.amin(X[:, 0])
+    x0_2 = np.amax(X[:, 0])
 
-# Dataset Slicing
-x_axis = iris_df.data[:, 0]  # Sepal Length
-y_axis = iris_df.data[:, 2]  # Sepal Width
+    x1_1 = -(clf.w[0] * x0_1 + clf.b) / clf.w[1]
+    x1_2 = -(clf.w[0] * x0_2 + clf.b) / clf.w[1]
+    plt.plot([x0_1, x0_2], [x1_1, x1_2], "y--")
+    plt.xlabel('X1')
+    plt.ylabel('X2')
+    plt.title('SVM Decision Boundary')
+    plt.show()
+visualize_svm()
 
-# Plotting
-plt.scatter(x_axis, y_axis, c=iris_df.target)
-plt.show()
 
 
-Implement K-means algorithm using Python
+1B . Implement and demonstrate the FIND-S algorithm for finding the most specific hypothesis based on a given set of training data sample
+
+
+
+import csv
+num_attributes = 5
+a = []
+
+
+with open('content\Data.csv', 'r') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        a.append(row)
+        print(row)
+
+
+print("\nThe initial value of hypothesis:")
+hypothesis = ['0'] * num_attributes
+print(hypothesis)
+
+
+for j in range(num_attributes):
+    hypothesis[j] = a[1][j]
+print("\nThe a[1] value of hypothesis:")
+print(hypothesis)
+
+
+print("\nFind S: Finding a Maximally Specific Hypothesis\n")
+for i in range(len(a)):
+    if a[i][num_attributes] == 'Positive':
+        for j in range(num_attributes):
+            if a[i][j] != hypothesis[j]:
+                hypothesis[j] = '?'
+            else:
+                hypothesis[j] = a[i][j]
+
+
+    print("For Training instance No:{} the hypothesis is".format(i), hypothesis)
+
+print("\nThe Maximally Specific Hypothesis for a given Training Examples:\n", hypothesis)
+
+
+3A Naive Bayesian
 
 import pandas as pd
-import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import MinMaxScaler
-import seaborn as sns
-import matplotlib.pyplot as plt
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+data = pd.read_csv('content\PlayTennis.csv')
+print("The first 5 Values of data is:\n", data.head())
+X = data.drop(columns=['Play Tennis'])
+y = data['Play Tennis']
+label_encoders = {}
+
+
+for column in X.columns:
+    label_encoders[column] = LabelEncoder()
+    X[column] = label_encoders[column].fit_transform(X[column])
+
+y = LabelEncoder().fit_transform(y)
+
+print("\nNow the train data is:\n", X.head())
+print("\nNow the train output is:\n", y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+classifier = GaussianNB()
+classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy is:", accuracy)
+
+2A Perform Data Loading, Feature selection (Principal Component Analysis) and Feature Scoring and Ranking.
 
-%matplotlib inline
-
-# Load the train and test datasets to create two DataFrames
-train_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/train.csv"
-train = pd.read_csv(train_url)
-
-test_url = "http://s3.amazonaws.com/assets.datacamp.com/course/Kaggle/test.csv"
-test = pd.read_csv(test_url)
-
-print("Train dataset:")
-print(train.head())
-
-print("\nTest dataset:")
-print(test.head())
-
-print("***** Train_Set *****")
-print(train.describe())
-print("\n")
-print("***** Test_Set *****")
-print(test.describe())
-
-print(train.columns.values)
-
-# For the train set
-print("*****In the train set*****")
-print(train.isna().sum())
-print("\n")
-print("*****In the test set*****")
-print(test.isna().sum())
-
-train.fillna(train.mean(), inplace=True)
-
-test.fillna(test.mean(), inplace=True)
-
-print(train.isna().sum())
-print(test.isna().sum())
-
-train['Ticket'].head()
-
-train['Cabin'].head()
-
-train[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived', ascending=False)
-
-train[["Sex", "Survived"]].groupby(['Sex'], as_index=False).mean().sort_values(by='Survived', ascending=False)
-
-train[["SibSp", "Survived"]].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
-
-g = sns.FacetGrid(train, col='Survived')
-g.map(plt.hist, 'Age', bins=20)
-
-grid = sns.FacetGrid(train, col='Survived', row='Pclass', height=2.2, aspect=1.6)
-grid.map(plt.hist, 'Age', alpha=.5, bins=20)
-grid.add_legend();
-
-train.info()
-
-train = train.drop(['Name','Ticket', 'Cabin','Embarked'], axis=1)
-test = test.drop(['Name','Ticket', 'Cabin','Embarked'], axis=1)
-
-labelEncoder = LabelEncoder()
-labelEncoder.fit(train['Sex'])
-labelEncoder.fit(test['Sex'])
-train['Sex'] = labelEncoder.transform(train['Sex'])
-test['Sex'] = labelEncoder.transform(test['Sex'])
-
-train.info()
-test.info()
-
-X = np.array(train.drop(['Survived'], 1).astype(float))
-y = np.array(train['Survived'])
-
-kmeans = KMeans(n_clusters=2)
-kmeans.fit(X)
-
-correct = 0
-for i in range(len(X)):
-    predict_me = np.array(X[i].astype(float))
-    predict_me = predict_me.reshape(-1, len(predict_me))
-    prediction = kmeans.predict(predict_me)
-    if prediction[0] == y[i]: 
-        correct += 1
-
-print(correct/len(X))
-
-kmeans = KMeans(n_clusters=2, max_iter=600, algorithm='auto')
-kmeans.fit(X)
-
-correct = 0
-for i in range(len(X)):
-    predict_me = np.array(X[i].astype(float))
-    predict_me = predict_me.reshape(-1, len(predict_me))
-    prediction = kmeans.predict(predict_me)
-    if prediction[0] == y[i]: 
-        correct += 1
-
-print(correct/len(X))
-
-scaler = MinMaxScaler()
-X_scaled = scaler.fit_transform(X)
-kmeans.fit(X_scaled)
-
-correct = 0
-for i in range(len(X)):
-    predict_me = np.array(X[i].astype(float))
-    predict_me = predict_me.reshape(-1, len(predict_me))
-    prediction = kmeans.predict(predict_me)
-    if prediction[0] == y[i]: 
-        correct += 1
-
-print(correct/len(X))
-
-
-PRACTICAL NO. 06
-
-Aim: - Perform different operations on fuzzy set
-
-1.	 Union: -
-
-degree_of_membership(Y)= max(degree_of_membership(A), degree_of_membership(B))
-Code: -
-
-# Example to Demonstrate the Union of Two Fuzzy Sets
-A = dict()
-B = dict() Y = dict()
-A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
-B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
-
-print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
-
-for A_key, B_key in zip(A, B): A_value = A[A_key] B_value = B[B_key]
-if A_value > B_value: Y[A_key] = A_value else:
-Y[B_key] = B_value
-print('Fuzzy Set Union is :', Y) Output :-
-
- 
-2.	 Intersection: -
-degree_of_membership(Y)= min(degree_of_membership(A), degree_of_membership(B))
-
-Code: -
-
-# Example to Demonstrate Intersection of Two Fuzzy Sets
-A = dict()
-B = dict() Y = dict()
-A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
-B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
-
-print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
-
-for A_key, B_key in zip(A, B):
-A_value = A[A_key] B_value = B[B_key]
-if A_value < B_value:
-Y[A_key] = A_value else:
-Y[B_key] = B_value print('Fuzzy Set Intersection is :', Y)
-Output: -
-
-
-3.	Complement : -
-degree_of_membership(Y)= 1 - degree_of_membership(A)
-Code: -
-
-Y = dict()
- 
-A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
-print('The Fuzzy Set is :', A)
-
-for A_key in A:
-Y[A_key]= 1-A[A_key] print('Fuzzy Set Complement is :', Y) Output: -
-
-
-4.	Difference: -
-degree_of_membership(Y)= min(degree_of_membership(A), 1- degree_of_membership(B))
-
-Code: -
-A = dict()
-B = dict() Y = dict()
-A = {"a": 0.2, "b": 0.3, "c": 0.6, "d": 0.6}
-B = {"a": 0.9, "b": 0.9, "c": 0.4, "d": 0.5}
-
-print('The First Fuzzy Set is :', A) print('The Second Fuzzy Set is :', B)
-
-for A_key, B_key in zip(A, B): A_value = A[A_key] B_value = B[B_key]
-B_value = 1 - B_value
-
-if A_value < B_value: Y[A_key] = A_value else:
-Y[B_key] = B_value print('Fuzzy Set Difference is :', Y) 
-
-
-
-
-PRACTICAL NO. 01
-
-Aim:- Design an Expert system using AIML
-
-Code: -
-1.	“std-startup.xml” File
-<aiml version="1.0.1" encoding="UTF-8">
-<!-- std-startup.xml -->
-<!-- Category is an atomic AIML unit -->
-<category>
-<!-- Pattern to match in user input -->
-<!-- If user enters "LOAD AIML B" -->
-<pattern>LOAD AIML B</pattern>
-<!-- Template is the response to the pattern -->
-<!-- This learn an aiml file -->
-<template>
-<learn>basic_chat.aiml</learn>
-<!-- You can add more aiml files here -->
-<!--<learn>more_aiml.aiml</learn>-->
-</template>
-</category>
-</aiml>
-
-2.	“basic_chat.aiml” File
-<aiml version="1.0.1" encoding="UTF-8">
-<!-- basic_chat.aiml -->
-<category>
-<pattern>HELLO *</pattern>
-<template> Well, hello Brij!
-</template>
-</category>
-<category>
-<pattern>what are you doing</pattern>
-<template>
-Well, Brij I'm Chatting with you!
-</template>
-</category>
-<category>
-<pattern>whats my full name</pattern>
-<template>
-Well, hello Brijnandan Gupta!
-</template>
-</category>
-<category>
-<pattern>Whats my nickname</pattern>
-<template>
-I think its Brij!
-</template> 
-</category>
-<category>
-<pattern>WHAT ARE YOU</pattern>
-<template>
-I'm a bot, and I'm silly!
-</template>
-</category>
-<category>
-<pattern>WHAT DO YOU DO</pattern>
-<template>
-I'm here to annoy you!
-</template>
-</category>
-<category>
-<pattern>Who am i</pattern>
-<template>
-You are Brijnandan you are Fatty.
-</template>
-</category>
-</aiml>
-
-3.	“simply.py” File
-import aiml
-kernel = aiml.Kernel()
-kernel.learn('C:/Users/Brijnandan/Desktop/Msc/AAI Practical/SimpleAIMLBot/std-startup.xml') kernel.respond('LOAD AIML B')
-while True:
-input_text = input(">Human: ") response = kernel.respond(input_text)
-print(">Bot: "+response)
-
-
-Output :–
-
-
- 
-PRACTICAL NO. 02
-
-Aim:- Design a bot using AIML
-
-Code: - We need to create following three files.
-
-1)	std-startup.xml
-<aiml version="1.0.1" encoding="UTF-8">
-<!-- std-startup.xml -->
-<category>
-<pattern>LOAD</pattern>
-<template>
-<learn>basic_chat.aiml</learn>
-</template>
-</category>
-</aiml>
-
-2)	basic_chat.aiml
-<aiml version="1.0.1" encoding="UTF-8">
-<!-- basic_chat.aiml -->
-<category>
-<pattern>HELLO I AM *</pattern>
-<template> HELLO <set name="username"> <star/> </set> </template>
-</category>
-<category>
-<pattern>I LIKE * COLOR</pattern>
-<template><star index="1"/> is a nice color.</template>
-</category>
-<category>
-<pattern>BYE</pattern>
-<template> BYE <get name="username"/> THANKS FOR THE CONVERSATION.
-</template>
-</category>
-</aiml>
-
-3)	testbot.py
-import aiml
-kernel = aiml.Kernel()
-kernel.learn("E:\\ai pracs\\std-startup.xml") 
-kernel.respond("LOAD")
-# Press CTRL-C to break this loop while True:
-print( kernel.respond(input("Enter your message >> ")))
-
-
-
-Practical 5
-import spacy
-from spacy.matcher import Matcher
-
-# Load English language model
-nlp = spacy.load('en_core_web_sm')
-
-# Initialize Matcher
-matcher = Matcher(nlp.vocab)
-
-# Define patterns
-patterns = [
-    {'label': 'IPHONE_X', 'pattern': [{'ORTH': 'iPhone'}, {'ORTH': 'X'}]},
-    {'label': 'FIFA_WORLD_CUP', 'pattern': [{'IS_DIGIT': True}, {'LOWER': 'fifa'}, {'LOWER': 'world'}, {'LOWER': 'cup'}, {'IS_PUNCT': True}]},
-    {'label': 'LOVE_NOUN', 'pattern': [{'LEMMA': 'love', 'POS': 'VERB'}, {'POS': 'NOUN'}]},
-    {'label': 'BUY_SENTENCE', 'pattern': [{'LEMMA': 'buy'}, {'POS': 'DET', 'OP': '?'}, {'POS': 'NOUN'}]}
-]
-
-# Add patterns to the matcher
-for pattern in patterns:
-    matcher.add(pattern['label'], [pattern['pattern']], on_match=None)
-
-# Sample text
-texts = [
-    "New iPhone X release date leaked",
-    "2018 FIFA World Cup: France won!!!!",
-    "I loved dogs but now I love cats more.",
-    "I bought a smartphone. Now I'm buying apps."
-]
-
-# Process and match each text
-for text in texts:
-    doc = nlp(text)
-    matches = matcher(doc)
-    for match_id, start, end in matches:
-        matched_span = doc[start:end]
-        print(matched_span.text)
-
-Practical 8 kmeans clustering
-
-import pandas as pd 
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import LabelEncoder 
-from sklearn.preprocessing import MinMaxScaler 
-import seaborn as sns
 import matplotlib.pyplot as plt
-
-# Load data
-train = pd.read_csv("C:/Users/Aditi/Downloads/train.csv")
-test = pd.read_csv("C:/Users/Aditi/Downloads/test.csv")
-
-# Display data summaries
-print("Train Data:")
-print(train.head())
-print(train.describe())
-print("Test Data:")
-print(test.head())
-print(test.describe())
-
-# Check for missing values
-print("Missing values in train set:")
-print(train.isna().sum())
-print("\nMissing values in test set:")
-print(test.isna().sum())
-
-# Fill missing values with mean column values
-train.fillna(train.mean(), inplace=True)
-test.fillna(test.mean(), inplace=True) 
-
-# Visualize data relationships
-sns.pairplot(train)
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+dataset = pd.read_csv("C:/Users/Aditi/Downloads/archive (4)/winequality-red.csv")
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+pca = PCA(n_components=2)
+X_train_pca = pca.fit_transform(X_train)
+X_test_pca = pca.transform(X_test)
+classifier = LogisticRegression(random_state=0, multi_class="multinomial")
+classifier.fit(X_train_pca, y_train)
+y_pred = classifier.predict(X_test_pca)
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:")
+print(cm)
+plt.figure(figsize=(10, 6))
+for i, j in enumerate(np.unique(y_train)):
+    plt.scatter(X_train_pca[y_train == j, 0], X_train_pca[y_train == j, 1], label=str(j))
+plt.title("Logistic Regression (Training Set)")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.legend()
+plt.show()
+plt.figure(figsize=(10, 6))
+for i, j in enumerate(np.unique(y_test)):
+    plt.scatter(X_test_pca[y_test == j, 0], X_test_pca[y_test == j, 1], label=str(j))
+plt.title("Logistic Regression (Test Set)")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.legend()
 plt.show()
 
-# Encoding categorical variables
-label_encoder = LabelEncoder()
-train['Sex'] = label_encoder.fit_transform(train['Sex'])
-test['Sex'] = label_encoder.transform(test['Sex'])
+2B For a given set of training data examples stored in .CSV file, implement and demonstrate the Candidate-Elimination algorithm to output a description of the set of all hypotheses consistent with the training examples.
 
-# Drop non-numeric columns and missing values
-train.drop(['Sex', 'Embarked', 'Cabin', 'Ticket', 'Name'], axis=1, inplace=True)
-test.drop(['Sex', 'Embarked', 'Cabin', 'Ticket', 'Name'], axis=1, inplace=True)
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+import networkx as nx
 
-# Fill missing values with mean column values
-train.fillna(train.mean(), inplace=True)
-test.fillna(test.mean(), inplace=True) 
 
-# Cluster data using KMeans
-X_train = train.drop(['Survived'], axis=1)
-y_train = train['Survived']
+def g_0(n):
+    return ("?",) * n
 
-# Check if there are any remaining non-numeric columns
-non_numeric_columns = X_train.select_dtypes(exclude=['number']).columns
-print("Non-numeric columns:", non_numeric_columns)
+def s_0(n):
+    return ('0',) * n
 
-# Perform KMeans clustering
-kmeans = KMeans(n_clusters=2, max_iter=600, algorithm='auto') 
-kmeans.fit(X_train)
+def more_general(h1, h2):
+    return all(x == "?" or (x != "0" and (x == y or y == "0")) for x, y in zip(h1, h2))
 
+def fulfills(example, hypothesis):
+    return more_general(hypothesis, example)
+
+def min_generalizations(h, x):
+    return [tuple('?' if h_i != '0' and h_i != x_i else h_i for h_i, x_i in zip(h, x))]
+
+def min_specializations(h, domains, x):
+    return [tuple('0' if h_i == x_i else h_i for h_i, x_i in zip(h, x)) for h in h if h != '0'] + \
+           [tuple(val if h_i == '0' else h_i for h_i, val in zip(h, domains_i)) for h_i, domains_i in zip(h, domains) if h_i == "?"]
+
+with open('C:/Users/Aditi/OneDrive/Documents/season-dataset.csv') as csvFile:
+    examples = [tuple(line) for line in csv.reader(csvFile)]
+
+def get_domains(examples):
+    return [list(sorted(set(x_i for x in examples))) for x_i in zip(*examples)]
+
+def candidate_elimination(examples):
+    domains = get_domains(examples)[:-1]
+
+    G = set([g_0(len(domains))])
+    S = set([s_0(len(domains))])
+
+    for x_cx in examples:
+        x, cx = x_cx[:-1], x_cx[-1]
+        if cx == 'Y':
+            G = {g for g in G if fulfills(x, g)}
+            S = {s for s in S if not fulfills(x, s)}
+            S.update(min_generalizations(s, x) for s in S)
+            S = {s for s in S if any([more_general(g, s) for g in G])}
+            S -= {s for s in S if any([more_general(s, s1) for s1 in S if s != s1])}
+        else:
+            S = {s for s in S if not fulfills(x, s)}
+            G = {g for g in G if any([fulfills(x, s) for s in S])}
+            G.update(min_specializations(g, domains, x) for g in G)
+            G -= {g for g in G if any([more_general(g1, g) for g1 in G if g != g1])}
+    return G, S
+
+G, S = candidate_elimination(examples)
+print("G[4] = ", G)
+print("S[4] = ", S)
+
+def build_hypothesis_space(G, S):
+    levels = [[HypothesisNode(x, 0) for x in G]]
+    curlevel = 1
+
+    def next_level(h, S):
+        for s in S:
+            for i in range(len(h)):
+                if h[i] == "?" and s[i] != "?":
+                    yield h[:i] + (s[i],) + h[i + 1:]
+
+    nextLvl = {}
+
+    while True:
+        for n in levels[-1]:
+            for hyp in next_level(n.h, S):
+                if hyp in nextLvl:
+                    nextLvl[hyp].parents.add(n)
+                else:
+                    nextLvl[hyp] = HypothesisNode(hyp, curlevel, [n])
+        if not nextLvl:
+            break
+        levels.append(list(nextLvl.values()))
+        curlevel += 1
+        nextLvl = {}
+    return levels
+
+def draw_hypothesis_space(G, S):
+    levels = build_hypothesis_space(G, S)
+
+    g = nx.Graph()
+
+    for nodes in levels:
+        for n in nodes:
+            for p in n.parents:
+                g.add_edge(n.h, p.h)
+
+    pos = {}
+    ymin = 0.1
+    ymax = 0.9
+
+    for nodes, y in [(levels[0], ymin), (levels[-1], ymax)]:
+        xvals = np.linspace(0, 1, len(nodes))
+        for x, n in zip(xvals, nodes):
+            pos[n.h] = [x, y]
+
+    pos = nx.layout.fruchterman_reingold_layout(g, pos=pos, fixed=pos.keys())
+
+    nx.draw_networkx_edges(g, pos=pos, alpha=0.25)
+    nx.draw_networkx_labels(g, pos=pos)
+
+    plt.box(True)
+    plt.xticks([])
+    plt.yticks([])
+    plt.xlim(-1, 2)
+    plt.gcf().set_size_inches((10, 10))
+    plt.show()
+
+print()
+draw_hypothesis_space(G, S)
+
+
+4A Least square method
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data = pd.read_csv('C:/Users/Aditi/OneDrive/Documents/Sample_Salary_Data.csv')
+X = data.iloc[:, 0]
+Y = data.iloc[:, 1]
+X_mean = np.mean(X)
+Y_mean = np.mean(Y)
+numerator = np.sum((X - X_mean) * (Y - Y_mean))
+denominator = np.sum((X - X_mean) ** 2)
+m = numerator / denominator
+c = Y_mean - m * X_mean
+print("Coefficient m:", m)
+print("Intercept c:", c)
+Y_pred = m * X + c
+plt.scatter(X, Y, color='blue')
+plt.plot(X, Y_pred, color='red')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.title('Linear Regression')
+plt.show()
+
+4B Logistic Regression
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score
+from matplotlib.colors import ListedColormap
+dataset = pd.read_csv('C:/Users/Aditi/OneDrive/Documents/p4b.csv')
+X = dataset.iloc[:, [2, 3]].values
+y = dataset.iloc[:, 4].values
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+classifier = LogisticRegression()
+classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix: \n", cm)
+print("Accuracy: ", accuracy_score(y_test, y_pred))
+plt.figure(figsize=(8, 6))
+X_set, y_set = X_test, y_test
+X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop=X_set[:, 0].max() + 1, step=0.01),
+                     np.arange(start=X_set[:, 1].min() - 1, stop=X_set[:, 1].max() + 1, step=0.01))
+plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
+             alpha=0.75, cmap=ListedColormap(('red', 'green')))
+plt.xlim(X1.min(), X1.max())
+plt.ylim(X2.min(), X2.max())
+for i, j in enumerate(np.unique(y_set)):
+    plt.scatter(X_test[y_test == j, 0], X_test[y_test == j, 1],
+                c=ListedColormap(('red', 'green'))(i), label=j)
+plt.title('Logistic Regression')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.legend()
+plt.show()
+
+
+5A decision tree based ID3 algorithm
+from sklearn import datasets
+from sklearn.tree import DecisionTreeClassifier, export_graphviz, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score
+import matplotlib.pyplot as plt
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+clf = DecisionTreeClassifier()
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+print("Confusion Matrix: \n", confusion_matrix(y_test, y_pred))
+print("Accuracy: ", accuracy_score(y_test, y_pred))
+plot_tree(clf, feature_names=iris.feature_names, class_names=iris.target_names)
+plt.show()
+
+5B Write a program to implement K-Nearest Neighbour algorithm to classify the iris data set.
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn import datasets
+from sklearn.model_selection import train_test_split, GridSearchCV
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+pipeline = make_pipeline(StandardScaler(), KNeighborsClassifier())
+param_grid = {
+    'kneighborsclassifier__n_neighbors': [2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'kneighborsclassifier__p': [1, 2],
+    'kneighborsclassifier__weights': ['uniform', 'distance'],
+    'kneighborsclassifier__algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'],
+}
+gs = GridSearchCV(pipeline, param_grid=param_grid,
+                  scoring='accuracy',
+                  refit=True,
+                  cv=10,
+                  verbose=1,
+                  n_jobs=2)
+gs.fit(X_train, y_train)
+print('Best Score: %.3f' % gs.best_score_,
+      '\nBest Parameters: ', gs.best_params_)
+
+
+6A . Implement the different Distance methods (Euclidean, Manhattan Distance, Minkowski Distance) with Prediction, Test Score and Confusion Matrix.
+from math import sqrt
+from sklearn.metrics import confusion_matrix, classification_report
+def euclidean_distance(a, b):
+    return sqrt(sum((e1-e2) ** 2 for e1, e2 in zip(a, b)))
+def manhattan_distance(a, b):
+    return sum(abs(e1 - e2) for e1, e2 in zip(a, b))
+def minkowski_distance(a, b, p):
+    return sum(abs(e1 - e2) ** p for e1, e2 in zip(a, b)) ** (1/p)
+actual = [1, 0, 0, 1, 0, 0, 1, 0, 0, 1]
+predicted = [1, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+dist1 = euclidean_distance(actual, predicted)
+print("Euclidean Distance: ", dist1)
+dist2 = manhattan_distance(actual, predicted)
+print("Manhattan Distance: ", dist2)
+dist3 = minkowski_distance(actual, predicted, 1)
+print("Minkowski Distance wiht p = 1: ", dist3)
+dist3 = minkowski_distance(actual, predicted, 2)
+print("Minkowski Distance with p = 2: ", dist3)
+matrix = confusion_matrix(actual, predicted, labels=[1, 0])
+print("Confusion Matrix: \n", matrix)
+tp, fn, fp, tn = confusion_matrix(actual, predicted, labels=[1, 0]).reshape(-1)
+print("Outcome values: \n", tp, fn, fp, tn)
+matrix = classification_report(actual, predicted, labels=[1, 0])
+print("Classificaiton report: \n", matrix)
+
+6B K mean clustering 
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+raw_data = pd.read_csv('C:/Users/Aditi/Downloads/Classified Data.csv', index_col=0)
+print(raw_data.head())
+print(raw_data.columns)
+scaler = StandardScaler()
+scaler.fit(raw_data.drop('TARGET CLASS', axis=1))
+scaled_features = scaler.transform(raw_data.drop('TARGET CLASS', axis=1))
+scaled_data = pd.DataFrame(scaled_features, columns=raw_data.drop('TARGET CLASS', axis=1).columns)
+x = scaled_data
+y = raw_data['TARGET CLASS']
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(x_train, y_train)
+predictions = model.predict(x_test)
+print(classification_report(y_test, predictions))
+print(confusion_matrix(y_test, predictions))
+
+7A hierarchical clustering 
+import matplotlib.pyplot as plt
+import pandas as pd
+import scipy.cluster.hierarchy as sch
+from sklearn.cluster import AgglomerativeClustering
+dataset = pd.read_csv('C:/Users/Aditi/OneDrive/Documents/abalone.csv')
+X = dataset.iloc[:, [3, 4]].values
+dendrogram = sch.dendrogram(sch.linkage(X, method="ward"))
+plt.title("Dendrogram")
+plt.xlabel("Samples")
+plt.ylabel("Euclidean distances")
+plt.show()
+hc = AgglomerativeClustering(n_clusters=5, affinity='euclidean', linkage='ward')
+y_hc = hc.fit_predict(X)
+print("Cluster Labels: ", y_hc)
+colors = ['red', 'blue', 'green', 'cyan', 'magenta']
+for cluster_num in range(5):
+    plt.scatter(X[y_hc == cluster_num, 0], X[y_hc == cluster_num, 1], s=100, c=colors[cluster_num], label=f'Cluster {cluster_num + 1}')
+plt.title("Clusters of Customers (Hierarchical Clustering Model)")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.legend()
+plt.show()
+
+7B Implement the Rule based method and test the same
+
+import pandas as pd
+from sklearn.metrics import accuracy_score, confusion_matrix
+data = {
+    'Tid': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'Refund': ['yes', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'no', 'no'],
+    'Marital_Status': ['single', 'married', 'single', 'married', 'divorced', 'married', 'divorced', 'married', 'single', 'married'],
+    'Taxable_Income': [125, 100, 70, 120, 65, 70, 200, 85, 75, 90],
+    'Class': ['no', 'no', 'no', 'no', 'yes', 'no', 'no', 'yes', 'no', 'yes']
+}
+df = pd.DataFrame(data)
+def rule_based_classifier(row):
+    if row['Refund'] == 'yes' and row['Marital_Status'] == 'single' and row['Taxable_Income'] > 100:
+        return 'yes'
+    elif row['Refund'] == 'no' and row['Marital_Status'] == 'married' and row['Taxable_Income'] <= 80:
+        return 'yes'
+    else:
+        return 'no'
+df['Prediction'] = df.apply(rule_based_classifier, axis=1)
+accuracy = accuracy_score(df['Class'], df['Prediction'])
+conf_matrix = confusion_matrix(df['Class'], df['Prediction'])
+print(f'Accuracy: {accuracy}')
+print('Confusion Matrix:')
+print(conf_matrix)
+print('\nPrediction Values:')
+print(df[['Tid', 'Class', 'Prediction']])
+
+
+8A Bayesian network
+import numpy as np
+import pandas as pd
+from pgmpy.estimators import MaximumLikelihoodEstimator
+from pgmpy.models import BayesianNetwork
+from pgmpy.inference import VariableElimination
+import warnings
+warnings.filterwarnings('ignore')
+heartDisease = pd.read_csv('heart_disease_data.csv')
+heartDisease = heartDisease.replace('?', np.nan)
+model = BayesianNetwork([('age', 'target'), ('sex', 'target'), ('exang', 'target'), 
+                         ('cp', 'target'), ('restecg', 'target'), ('trestbps', 'target'), 
+                         ('chol', 'target'), ('fbs', 'target')])
+model.fit(heartDisease, estimator=MaximumLikelihoodEstimator)
+HeartDisease_infer = VariableElimination(model)
+q1 = HeartDisease_infer.query(variables=['target'], evidence={'restecg': 1})
+print("Probability of Heart Disease given evidence = restecg:", q1)
+q2 = HeartDisease_infer.query(variables=['target'], evidence={'cp': 2})
+print("Probability of Heart Disease given evidence = cp:", q2)
+
+8B  Locally Weighted Regression algorithm 
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
+data = pd.read_csv('10-dataset.csv')
+bill = np.array(data.total_bill)
+tip = np.array(data.tip)
+def kernel(point, xmat, k):
+    m, n = np.shape(xmat)
+    weights = np.mat(np.eye((m)))
+    for j in range(m):
+        diff = point - X[j]
+        weights[j, j] = np.exp(diff * diff.T / (-2.0 * k ** 2))
+    return weights
+def localWeight(point, xmat, ymat, k):
+    wei = kernel(point, xmat, k)
+    W = (X.T * (wei * X)).I * (X.T * (wei * ymat.T))
+    return W
+def localWeightRegression(xmat, ymat, k):
+    m, n = np.shape(xmat)
+    ypred = np.zeros(m)
+    for i in range(m):
+        ypred[i] = xmat[i] * localWeight(xmat[i], xmat, ymat, k)
+    return ypred
+mbill = np.mat(bill)
+mtip = np.mat(tip)
+m = np.shape(mbill)[1]
+one = np.mat(np.ones(m))
+X = np.hstack((one.T, mbill.T))
+ypred = localWeightRegression(X, mtip, 0.5)
+SortIndex = X[:, 1].argsort(0)
+xsort = X[SortIndex][:, 0]
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+ax.scatter(bill, tip, color='orange')
+ax.plot(xsort[:, 1], ypred[SortIndex], color='blue', linewidth=5)
+plt.xlabel('Total Bill')
+plt.ylabel('Tips')
+plt.show()
